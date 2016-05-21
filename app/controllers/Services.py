@@ -4,6 +4,7 @@ import datetime
 import string
 import random
 import re
+import settings
 
 class Services(Controller):
     def __init__(self, action):
@@ -20,9 +21,13 @@ class Services(Controller):
 
     def search(self):
         print 'Services#search', request.form
-        artist = request.form['artist_name'].replace(' ', '')
-        print 'artist', artist
-        url = "https://itunes.apple.com/search?term=" + artist + "&entity=musicVideo"
+        origin = request.form['from']
+        destination = request.form['dest']
+        data = {
+                'origin': origin,
+                'destination': destination
+                }
+        url = "https://maps.googleapis.com/maps/api/directions/json?"+urlencode(data)+"&sensor=false&key=" + settings.env()['KEY']
         print 'url', url
         # notice this is 'requests' not 'request'
         # we are using the request modules, 'get' function to send a request from our controller

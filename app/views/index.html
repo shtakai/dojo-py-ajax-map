@@ -63,11 +63,13 @@
 
       <div class="container">
         <!--main content is here-->
-        <h2>Enter Artist's Name:</h2>
         <div  id="search">
           <form action="search" method="POST">
-            <input type="text" name="artist_name">
-            <input type="submit" value="Search">
+            <label for="from">From:</label>
+            <input id="from" type="text" name="from">
+            <label for="dest">Destination</label>
+            <input id="dest" type="text" name="dest">
+            <input type="submit" value="Get direction">
           </form>
         </div>
         <div id="result">
