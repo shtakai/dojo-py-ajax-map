@@ -1,40 +1,22 @@
-function index() {
-  $.ajax({
-    url: '/notes',
-    method: 'GET',
-    success: function (data) {
-      $('#notes').html(data);
-    }
-  });
-}
-
-function getNew() {
-  $.ajax({
-    url: '/notes/new',
-    method: 'GET',
-    success: function (data) {
-      $('#new').html(data);
-    }
-  });
-}
-
-$(document).ready(function () {
-  index();
-  getNew();
-
-  $(document).on('submit', 'form', function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: $(this).attr('action'),
-      method: $(this).attr('method'),
-      data: $(this).serialize(),
-      success: function (data) {
-        $('#notes').html(data);
-        $('#title').val('');
-        $('#description').val('');
+$(document).ready(function() {
+  console.log('emit');
+  $('form').submit(function() {
+    console.log('submit-', $(this));
+    // load up any gif you want, this will be shown while user is waiting for response
+    $.post($(this).attr('action'), $(this).serialize(), function(res) {
+      // pay careful attention to the response object
+      console.log('the response object:');
+      console.log(res);
+      var html_string = "";
+      if(res.results.length !== 0) {
+        html_string = "<video controls src='" + res.results[0].previewUrl + "'><\/video>";
+      } else {
+        html_string = "Not Found";
       }
-    })
+      console.log('the html string:');
+      console.log(html_string);
+    }, 'json');
+    // don't forget, without it the page will refresh
     return false;
   });
 });
-
